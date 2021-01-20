@@ -1,4 +1,5 @@
 class Api::ProductsController < ApplicationController
+  
   def index
     @products = Product.all
     render "index.json.jb"
@@ -37,10 +38,5 @@ class Api::ProductsController < ApplicationController
     product.destroy
     render json: {message: "Your product has now been obliterated."}
   end
-
-  # def any_product_action
-  #   which = params[:item].to_i
-  #   @product = Product.find_by(id: which)
-  #   render "show_single_product.json.jb"
-  # end
+  
 end
