@@ -5,6 +5,9 @@ class Product < ApplicationRecord
   validates :description, length: { in: 10..500 }
   # validates_format_of :image_url, :with => %r{(png|jpg|jpeg)$}i, :message => "incorrect file format (must be .png, .jpg, or .jpeg)", multiline: true
 
+  belongs_to :supplier
+  has_many :images
+
   def is_discounted?
     price < 10
   end
