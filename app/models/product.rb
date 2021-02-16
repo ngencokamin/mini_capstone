@@ -5,8 +5,11 @@ class Product < ApplicationRecord
   # validates_format_of :image_url, :with => %r{(png|jpg|jpeg)$}i, :message => "incorrect file format (must be .png, .jpg, or .jpeg)", multiline: true
 
   belongs_to :supplier
-  has_many :orders
+  has_many :carted_products
+  has_many :orders, through: :carted_products
   has_many :images
+  has_many :product_categories
+  has_many :categories, through: :product_categories
 
   def is_discounted?
     price < 10

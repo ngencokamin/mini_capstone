@@ -1,23 +1,28 @@
 class Api::ProductsController < ApplicationController
   
+  before_action :authenticate_admin, except: [:index, :show]
   def index
     @products = Product.all
-    if params[:discount]
-      @products = @products.where("price < ?", 10)
+    if params[:category]
+      category = Category.find_by("name = ?", params[:category])
+      @products = category.products
     end
+    # if params[:discount]
+    #   @products = @products.where("price < ?", 10)
+    # end
 
-    if params[:search]
-      @products = @products.where("name iLIKE ? OR description iLIKE ?", "%#{params[:search]}%","%#{params[:search]}%")
-    end
-    if params[:sort] == "price"
-      if params[:sort_order] == "desc"
-        @products = @products.order(price: :desc)
-      else
-        @products = @products.order(:price)
-      end
-    else
-      @products = @products.order(:id)
-    end
+    # if params[:search]
+    #   @products = @products.where("name iLIKE ? OR description iLIKE ?", "%#{params[:search]}%","%#{params[:search]}%")
+    # end
+    # if params[:sort] == "price"
+    #   if params[:sort_order] == "desc"
+    #     @products = @products.order(price: :desc)
+    #   else
+    #     @products = @products.order(:price)
+    #   end
+    # else
+    #   @products = @products.order(:id)
+    # end
     render "index.json.jb"
   end
 
@@ -32,6 +37,7 @@ class Api::ProductsController < ApplicationController
       name: params[:name],
       price: params[:price],
       description: params[:description],
+      supplier_id: params[:supplier_id],
       stock: params[:stock]
     )
     if @product.save
