@@ -1,6 +1,6 @@
 {
   id: product.id,
-  name: product.name,
+  name: product.name.upcase,
   price: product.price,
   description: product.description,
   stock: product.stock,
